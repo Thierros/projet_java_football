@@ -102,7 +102,7 @@ public class Equipe {
     }
 
     public String toString(){
-        return nomEquipe + " {Points: " + nbPoints + ", Buts Marques: " + nbButsMarques + ",  Buts Encaisses: " + nbButsEncaisses + ", Vistoires: " + nbVictoires;
+        return nomEquipe + " {Points: " + nbPoints + ", Buts Marques: " + nbButsMarques + ",  Buts Encaisses: " + nbButsEncaisses + ", Victoires: " + nbVictoires;
     }
 
 

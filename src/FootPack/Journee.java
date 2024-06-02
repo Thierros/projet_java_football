@@ -5,9 +5,6 @@ package FootPack;
 public class Journee {
 	private int numJournee;
 	private Match[] matches;
-	//private int nbTotalJournee;
-	//private int nbMatchParJournee;
-	//private String dateJournee;
 	
 	// Définition du constructeur
 	public Journee(int numJournee, Equipe[] equipes){
@@ -18,27 +15,28 @@ public class Journee {
 	}
 	
     private void generateMatches(Equipe[] equipes) {
-        int numberOfTeams = equipes.length;
-        Equipe[] tempEquipes = new Equipe[numberOfTeams];
-        System.arraycopy(equipes, 0, tempEquipes, 0, numberOfTeams);
+    	// Création d'une copie temporaire de la variable equipes
+        Equipe[] tempEquipes = new Equipe[equipes.length];
+        System.arraycopy(equipes, 0, tempEquipes, 0, equipes.length);
         
-        int halfSize = numberOfTeams / 2;
-
-        for (int day = 0; day < numberOfTeams - 1; day++) {
-            for (int i = 0; i < halfSize; i++) {
+        // Confrontons les différentes équipe par la méthode round robin
+        for (int day = 0; day < equipes.length - 1; day++) {
+        	
+            for (int i = 0; i < matches.length; i++) {
                 Equipe equipe1 = tempEquipes[i];
-                Equipe equipe2 = tempEquipes[numberOfTeams - 1 - i];
+                Equipe equipe2 = tempEquipes[equipes.length - 1 - i];
                 if (equipe1 != null && equipe2 != null) {
-                    matches[i] = new Match(equipe1, equipe2);
+                matches[i] = new Match(equipe1, equipe2);
                 }
             }
 
-            // Rotate teams for the next round
-            Equipe lastTeam = tempEquipes[numberOfTeams - 1];
-            for (int i = numberOfTeams - 1; i > 1; i--) {
+            // Effectuons la rotation pour la prochaine journée
+            /*Equipe lastTeam = tempEquipes[equipes.length - 1];
+            for (int i = equipes.length - 1; i > 1; i--) {
                 tempEquipes[i] = tempEquipes[i - 1];
             }
-            tempEquipes[1] = lastTeam;
+            tempEquipes[1] = lastTeam;*/
+            
         }
     }
     
