@@ -19,7 +19,7 @@ public class Journee {
         Equipe[] tempEquipes = new Equipe[equipes.length];
         System.arraycopy(equipes, 0, tempEquipes, 0, equipes.length);
         
-        // Confrontons les différentes équipe par la méthode round robin
+        // Confrontons les différentes équipes par la méthode round robin
         for (int day = 0; day < equipes.length - 1; day++) {
         	
             for (int i = 0; i < matches.length; i++) {
