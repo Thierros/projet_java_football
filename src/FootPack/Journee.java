@@ -1,66 +1,55 @@
 package FootPack;
 
-//import java.util.Random;
+import java.io.Serializable;
 
-public class Journee {
-	private int numJournee;
+public class Journee implements Serializable {
+	private int numero;
 	private Match[] matches;
-	
-	// Définition du constructeur
-	public Journee(int numJournee, Equipe[] equipes){
-		this.numJournee = numJournee;
-		this.matches = new Match[equipes.length / 2];
-		generateMatches(equipes);
-		simulerMatch();
-	}
-	
-    private void generateMatches(Equipe[] equipes) {
-    	// Création d'une copie temporaire de la variable equipes
-        Equipe[] tempEquipes = new Equipe[equipes.length];
-        System.arraycopy(equipes, 0, tempEquipes, 0, equipes.length);
-        
-        // Confrontons les différentes équipes par la méthode round robin
-        for (int day = 0; day < equipes.length - 1; day++) {
-        	
-            for (int i = 0; i < matches.length; i++) {
-                Equipe equipe1 = tempEquipes[i];
-                Equipe equipe2 = tempEquipes[equipes.length - 1 - i];
-                if (equipe1 != null && equipe2 != null) {
-                matches[i] = new Match(equipe1, equipe2);
-                }
-            }
+	private int nbMatches;
+	private int indexe;
 
-            // Effectuons la rotation pour la prochaine journée
-            /*Equipe lastTeam = tempEquipes[equipes.length - 1];
-            for (int i = equipes.length - 1; i > 1; i--) {
-                tempEquipes[i] = tempEquipes[i - 1];
-            }
-            tempEquipes[1] = lastTeam;*/
-            
-        }
-    }
-    
-    public void simulerMatch() {
-    	for(Match match: matches) {
-    		match.jouerMatch();
-    	}
-    }
-		
-	public int getNumJournee() {
-		return this.numJournee;
+	public Journee(){
+		nbMatches = 0;
 	}
-	
-	public Match[] getMatches() {
-		return this.matches;
+
+	public Journee(int numero) {
+		this();
+		this.numero = numero;
+//		this.matches = new Match[nbMatches];
+		indexe = 0;
 	}
-	
+
+	public void ajouterMatch(Match match) {
+		matches[indexe++] = match;
+	}
+
+	public void simulerJournee() {
+		for (Match match : matches) {
+			if (!match.isPlayed()) {
+				match.jouerMatch();
+			}
+		}
+	}
+
+	public void setNbMatches(int nbMatches){
+		this.nbMatches = nbMatches;
+		this.matches = new Match[nbMatches];
+	}
+	public int getNbMatches(){
+		return nbMatches;
+	}
+
+	public Match[] getMatches(){
+		return matches;
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Journee ").append(numJournee).append(":\n");
-		for (Match match: matches) {
+		sb.append("Journee ").append(numero).append(":\n");
+		for (Match match : matches) {
 			sb.append(match).append("\n");
 		}
 		return sb.toString();
 	}
-	
 }

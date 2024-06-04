@@ -1,6 +1,8 @@
 package FootPack;
 
-public class Equipe {
+import java.io.Serializable;
+
+public class Equipe implements Serializable {
     private String nomEquipe;
     private int nbPoints;
     private int nbButsMarques;
@@ -70,6 +72,10 @@ public class Equipe {
 
     public int getNbNuls(){
         return this.nbNuls;
+    }
+
+    public int getGoalAverage() {
+        return this.nbButsMarques - this.nbButsEncaisses;
     }
 
 //    Les setters

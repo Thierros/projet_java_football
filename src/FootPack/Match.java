@@ -1,9 +1,10 @@
 package FootPack;
 
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Match {
+public class Match implements Serializable {
     private Equipe equipe1;
     private Equipe equipe2;
     private int scoreEquipe1;
@@ -14,8 +15,8 @@ public class Match {
     public Match(Equipe equipe1, Equipe equipe2) {
         this.equipe1 = equipe1;
         this.equipe2 = equipe2;
-        this.scoreEquipe1 = -1; // Indique que le match n'a pas encore été joué
-        this.scoreEquipe2 = -1; // Indique que le match n'a pas encore été joué
+        this.scoreEquipe1 = 0;
+        this.scoreEquipe2 = 0;
         this.estJoue = false;
     }
 
