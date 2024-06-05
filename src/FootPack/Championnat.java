@@ -11,8 +11,15 @@ public class Championnat  implements Serializable{
     private static int nbEquipe;
     private int indexJournee;
 
-    public Championnat(){
-        chargerEquipe();
+    public Championnat() throws IOException {
+        chargerEquipe("data/equipe.txt");
+        indexJournee = 0;
+        this.journees = new Journee[nbEquipe - 1];
+        genererCalendrier();
+    }
+
+    public Championnat(String equipeFileName) throws IOException {
+        chargerEquipe(equipeFileName);
         indexJournee = 0;
         this.journees = new Journee[nbEquipe - 1];
         genererCalendrier();
@@ -46,6 +53,7 @@ public class Championnat  implements Serializable{
     {
         for (int i = indexJournee; i < journees.length; i++)
             journees[i].simulerJournee();
+        indexJournee = journees.length - 1;
     }
 
     public void afficherClassement(){
@@ -103,7 +111,8 @@ public class Championnat  implements Serializable{
             oos.writeObject(this);
             System.out.println("Championnat sauvegardé avec succès!");
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("Une erreur liee au fichier! verifier le chemin d'acces...");
+//            e.printStackTrace();
 //            System.out.println();
         }
     }
@@ -116,18 +125,18 @@ public class Championnat  implements Serializable{
             ois = new ObjectInputStream(fis);
             return (Championnat) ois.readObject();
         } catch (IOException e) {
+            System.out.println("Une erreur liee au fichier! verifier le chemin d'acces...");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         return null;
     }
 
-
-    public void chargerEquipe(){
+    public void chargerEquipe(String fichierEquipe) throws IOException{
         FileReader fr = null;
         BufferedReader br = null;
-        try{
-            fr = new FileReader("data/equipe.txt");
+//        try{
+            fr = new FileReader(fichierEquipe);
             br = new BufferedReader(fr);
 
             nbEquipe = 0;
@@ -140,7 +149,7 @@ public class Championnat  implements Serializable{
             }
             br.close();
 
-            fr = new FileReader("data/equipe.txt");
+            fr = new FileReader(fichierEquipe);
             br = new BufferedReader(fr);
             int indexe = 0;
             equipes = new Equipe[nbEquipe];
@@ -151,9 +160,10 @@ public class Championnat  implements Serializable{
                 ligne = br.readLine();
             }
             br.close();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+//        }catch (IOException e) {
+//            System.out.println("Une erreur liee au fichier! verifier le chemin d'acces...");
+////            e.printStackTrace();
+//        }
     }
 
     public Equipe[] getEquipes() {
@@ -183,10 +193,15 @@ public class Championnat  implements Serializable{
 
     public void statEquipe(int numEquipe){
         Equipe equipe = equipes[numEquipe];
+        System.out.println("STATISTIQUE DE L'EQUIPE POUR LA JOURNEE "+getIndexJournee()+" / "+getJournees().length+" :");
+        System.out.println("_________________________________________________");
         System.out.println("Nom: "+equipes[numEquipe].getNomEquipe());
-        System.out.println("Nombre de Defaites: "+equipes[numEquipe].getNbDefaites());
+        System.out.println("Nombre de points: "+equipes[numEquipe].getNbPoints());
+        System.out.println("Nombre de Défaites: "+equipes[numEquipe].getNbDefaites());
         System.out.println("Nombre de Victoirs: "+equipes[numEquipe].getNbVictoires());
         System.out.println("Nombre de matchs Nuls: "+equipes[numEquipe].getNbNuls());
+        System.out.println("Nombre de buts marqués: "+equipes[numEquipe].getNbButsMarques());
+        System.out.println("Nombre de buts encaissés: "+equipes[numEquipe].getNbButsEncaisses());
     }
 
     public void infoMatch(int equipe1, int equipe2){
@@ -239,4 +254,13 @@ public class Championnat  implements Serializable{
         System.out.println(nomEquipe+": "+score+" buts.");
         System.out.println("======================================");
     }
+
+    public int getIndexJournee(){
+        return indexJournee;
+    }
+
+//    public void afficherNumJournee(){
+//        System.out.println("========================= JOURNEE "+indexJournee+"/ "+journees.length+" =============================");
+//
+//    }
 }
