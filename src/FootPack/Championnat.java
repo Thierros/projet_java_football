@@ -12,7 +12,7 @@ public class Championnat  implements Serializable{
     private int indexJournee;
 
     public Championnat() throws IOException {
-        chargerEquipe("data/equipe.txt");
+        chargerEquipe("equipe.txt");
         indexJournee = 0;
         this.journees = new Journee[nbEquipe - 1];
         genererCalendrier();
@@ -106,7 +106,7 @@ public class Championnat  implements Serializable{
         ObjectOutputStream oos = null;
         FileOutputStream fos = null;
         try{
-            fos = new FileOutputStream("data/championnat.dat");
+            fos = new FileOutputStream("championnat.dat");
             oos = new ObjectOutputStream(fos);
             oos.writeObject(this);
             System.out.println("Championnat sauvegardé avec succès!");
