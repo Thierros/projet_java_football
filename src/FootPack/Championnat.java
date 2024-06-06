@@ -53,7 +53,7 @@ public class Championnat  implements Serializable{
     {
         for (int i = indexJournee; i < journees.length; i++)
             journees[i].simulerJournee();
-        indexJournee = journees.length - 1;
+        indexJournee = journees.length;
     }
 
     public void afficherClassement(){
@@ -112,8 +112,6 @@ public class Championnat  implements Serializable{
             System.out.println("Championnat sauvegardé avec succès!");
         }catch (IOException e){
             System.out.println("Une erreur liee au fichier! verifier le chemin d'acces...");
-//            e.printStackTrace();
-//            System.out.println();
         }
     }
 
@@ -133,37 +131,28 @@ public class Championnat  implements Serializable{
     }
 
     public void chargerEquipe(String fichierEquipe) throws IOException{
-        FileReader fr = null;
-        BufferedReader br = null;
-//        try{
-            fr = new FileReader(fichierEquipe);
-            br = new BufferedReader(fr);
+        FileReader fr = new FileReader(fichierEquipe);
+        BufferedReader br = new BufferedReader(fr);
+        nbEquipe = 0;
 
-            nbEquipe = 0;
-            Equipe [] tmpListeEquipe;
+        String res = br.readLine();
+        while (res != null) {
+            nbEquipe++;
+            res = br.readLine();
+        }
+        br.close();
 
-            String res = br.readLine();
-            while (res != null) {
-                nbEquipe++;
-                res = br.readLine();
-            }
-            br.close();
-
-            fr = new FileReader(fichierEquipe);
-            br = new BufferedReader(fr);
-            int indexe = 0;
-            equipes = new Equipe[nbEquipe];
-            String ligne = br.readLine();
-            while (ligne != null) {
-                Equipe equipe = new Equipe(ligne);
-                equipes[indexe++] = equipe;
-                ligne = br.readLine();
-            }
-            br.close();
-//        }catch (IOException e) {
-//            System.out.println("Une erreur liee au fichier! verifier le chemin d'acces...");
-////            e.printStackTrace();
-//        }
+        fr = new FileReader(fichierEquipe);
+        br = new BufferedReader(fr);
+        int indexe = 0;
+        equipes = new Equipe[nbEquipe];
+        String ligne = br.readLine();
+        while (ligne != null) {
+            Equipe equipe = new Equipe(ligne);
+            equipes[indexe++] = equipe;
+            ligne = br.readLine();
+        }
+        br.close();
     }
 
     public Equipe[] getEquipes() {
@@ -259,8 +248,4 @@ public class Championnat  implements Serializable{
         return indexJournee;
     }
 
-//    public void afficherNumJournee(){
-//        System.out.println("========================= JOURNEE "+indexJournee+"/ "+journees.length+" =============================");
-//
-//    }
 }
